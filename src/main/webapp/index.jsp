@@ -1,4 +1,4 @@
-<%@ page import="data.SessionToCSRFMap" %>
+<%@ page import="data.SessionVector" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,7 +33,7 @@
 <%
     Cookie cookies[] = request.getCookies();
     for(Cookie cookie: cookies){
-        if(cookie.getName().equals("STPSesID") && SessionToCSRFMap.getInstance().isLoggedIn(cookie.getValue())){
+        if(cookie.getName().equals("DBLSesID") && SessionVector.getInstance().isLoggedIn(cookie.getValue())){
             response.sendRedirect("home.jsp");
         }
     }

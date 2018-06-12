@@ -28,16 +28,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>CSRFTokenObtainer</servlet-name>
-        <servlet-class>servlet.CSRFTokenObtainer</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>CSRFTokenObtainer</servlet-name>
-        <url-pattern>/get_csrf_token</url-pattern>
-    </servlet-mapping>
-    <servlet>
         <servlet-name>Transaction</servlet-name>
         <servlet-class>servlet.Transaction</servlet-class>
         <load-on-startup>1</load-on-startup>

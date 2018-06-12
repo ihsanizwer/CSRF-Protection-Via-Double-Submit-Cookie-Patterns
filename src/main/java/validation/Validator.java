@@ -1,16 +1,14 @@
 package validation;
 
-import data.SessionToCSRFMap;
+import data.SessionVector;
 
 public class Validator {
 
-    private static SessionToCSRFMap stcm = SessionToCSRFMap.getInstance();
+    private static SessionVector stcm = SessionVector.getInstance();
 
-    public static boolean isValidSession(String sessionID, String csrfToken){
+    public static boolean isValidSession(String sessionID){
         if(stcm.isLoggedIn(sessionID)){
-            if(stcm.getCSRFToken(sessionID).equals(csrfToken)){
                 return true;
-            }
         }
         return false;
     }

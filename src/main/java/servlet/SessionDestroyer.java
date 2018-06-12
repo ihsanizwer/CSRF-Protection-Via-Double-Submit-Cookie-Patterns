@@ -6,18 +6,18 @@ import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import data.SessionToCSRFMap;
+import data.SessionVector;
 
 public class SessionDestroyer extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        SessionToCSRFMap ctcm = SessionToCSRFMap.getInstance();
+        SessionVector ctcm = SessionVector.getInstance();
         HttpSession session = request.getSession(false);
         Cookie cookies [] = request.getCookies();
         boolean logoutSuccess = false;
 
         if(session!=null){
             for(Cookie cookie: cookies){
-                if(cookie.getName().equals("STPSesID")){
+                if(cookie.getName().equals("DBLSubID")){
                     if(ctcm.isLoggedIn(cookie.getValue())){
                         try{
                             if(!(ctcm.destroySession(cookie.getValue()))){

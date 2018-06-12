@@ -3,5 +3,5 @@ validation/Validator.class
 servlet/SessionDestroyer.class
 servlet/SessionCreator.class
 servlet/Transaction.class
+data/SessionVector.class
 data/SessionToCSRFMap.class
-servlet/CSRFTokenObtainer.class

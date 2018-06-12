@@ -1,4 +1,4 @@
-<%@ page import="data.SessionToCSRFMap" %>
+<%@ page import="data.SessionVector" %>
 <%@ page import="data.AccountDetails" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -37,7 +37,7 @@
   boolean isLoggedin = false;
   Cookie cookies[] = request.getCookies();
   for(Cookie cookie: cookies){
-    if(cookie.getName().equals("STPSesID") && SessionToCSRFMap.getInstance().isLoggedIn(cookie.getValue())){
+    if(cookie.getName().equals("DBLSesID") && SessionVector.getInstance().isLoggedIn(cookie.getValue())){
       isLoggedin =true;
     }
   }
@@ -111,18 +111,24 @@
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script>
+    function getCookies(name){
+        var cookiestr=RegExp(""+name+"[^;]+").exec(document.cookie);
+        return decodeURIComponent(!!cookiestr ? cookiestr.toString().replace(/^[^=]+./,"") : "");
+    }
+    document.getElementById("csrf_token").setAttribute("value", getCookies("CSRFDubSub"));
+    /*
     function getCSRFToken() {
 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("csrf_token").setAttribute("value",this.responseText);
-                //alert(this.responseText);
+                alert(this.responseText);
             }
         };
         xhttp.open("POST", 'get_csrf_token', false);
         xhttp.send();
-    }
+   }*/
 </script>
 
 </body>

@@ -4,16 +4,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.security.SecureRandom;
 
-import data.SessionToCSRFMap;
+import data.SessionVector;
+
 
 public class SessionCreator extends HttpServlet {
     private byte bytearray [] = new byte[20];
     private SecureRandom random = new SecureRandom();
-    private SessionToCSRFMap stcm = SessionToCSRFMap.getInstance();
+    private SessionVector stcm = SessionVector.getInstance();
 
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -27,10 +26,12 @@ public class SessionCreator extends HttpServlet {
 
         Cookie [] cookies = request.getCookies();
         for(Cookie cookie: cookies){
-            if(cookie.getName().equals("STPSesID")){
+            if(cookie.getName().equals("DBLSesID")){
                 if(stcm.isLoggedIn(cookie.getValue())){
                     isLogged = true;
                 }
+            }else if(cookie.getName().equals("CSRFDubSub")){
+
             }
         }
 
@@ -51,14 +52,17 @@ public class SessionCreator extends HttpServlet {
                     csrfToken.append(bytearray[i]);
 
 
-                stcm.addSession(sess.toString(), csrfToken.toString());
+                stcm.setSession(sess.toString());
                 //creating a new session if not available
                 session = request.getSession();
                 session.setAttribute("SomeBankSes_ID", sess);
-                Cookie ses = new Cookie("STPSesID", sess.toString());
+                Cookie ses = new Cookie("DBLSesID", sess.toString());
+                Cookie csrf = new Cookie("CSRFDubSub",csrfToken.toString());
                 //Setting cookie expiry
                 ses.setMaxAge(30 * 60);
+                csrf.setMaxAge(30 * 60);
                 response.addCookie(ses);
+                response.addCookie(csrf);
                 //User authentication complete, redirecting user to the homepage
                 response.sendRedirect("home.jsp");
             } else {
